@@ -26,12 +26,12 @@ class PhotoCaptureController: NSObject, AVCapturePhotoCaptureDelegate {
     private var capturePhotoCallback: ((Result<(), Error>) -> Void)?
     
     var videoZoom: CGFloat {
-        get { videoDevice.videoZoomFactor }
-        set { videoDevice.videoZoomFactor = newValue }
+        get { videoDevice?.videoZoomFactor ?? 0 }
+        set { videoDevice?.videoZoomFactor = newValue }
     }
     
     var maxAvailableVideoZoom: CGFloat {
-        return videoDevice.maxAvailableVideoZoomFactor
+        return videoDevice?.maxAvailableVideoZoomFactor ?? 0
     }
     
     override init() {

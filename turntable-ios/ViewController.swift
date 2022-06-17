@@ -42,8 +42,8 @@ class ViewController: UIViewController, SocketConnectionDelegate {
         previewView.session = captureController.captureSession
         captureController.set(orientation: .landscapeRight)
         let pinchRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(didPinch))
-        
         previewView.addGestureRecognizer(pinchRecognizer)
+        
         captureController.startRunning()
     }
     
@@ -161,9 +161,9 @@ class ViewController: UIViewController, SocketConnectionDelegate {
             let maxZoom = min(4, captureController.maxAvailableVideoZoom)
             let scale = min(max(1, pinchRecognizer.scale * startGestureScale), maxZoom)
             captureController.videoZoom = scale
-            settings.cameraZoom = Float(scale)
         case .ended:
             startGestureScale = 0
+            settings.cameraZoom = Float(captureController.videoZoom)
         default:
             break
         }
