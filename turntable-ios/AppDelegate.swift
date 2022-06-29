@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             settings.turntablePort = 840
         }
         if settings.turntableSteps <= 0 {
-            settings.turntableSteps = 70
+            settings.turntableSteps = 90
         }
         if settings.cameraZoom <= 1 {
             settings.cameraZoom = 1

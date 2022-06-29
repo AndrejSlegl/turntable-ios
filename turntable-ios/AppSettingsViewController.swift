@@ -16,6 +16,8 @@ class AppSettingsViewController: UIViewController, ConsoleListener {
     let consoleDataSource = ConsoleTableDataSource()
     let settingsDataSource = AppSettingsTableDataSource()
     
+    private var didScrollToEnd = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -38,6 +40,23 @@ class AppSettingsViewController: UIViewController, ConsoleListener {
         navigationController?.setNavigationBarHidden(false, animated: animated)
         
         consoleTableView.reloadData()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        if !didScrollToEnd,
+            consoleTableView.bounds.height > 0,
+            consoleTableView.contentSize.height > 0 {
+            didScrollToEnd = true
+            
+            DispatchQueue.main.async {
+                let numRows = self.consoleDataSource.console.lines.count
+                if numRows > 0 {
+                    self.consoleTableView.scrollToRow(at: .init(row: numRows - 1, section: 0), at: .none, animated: false)
+                }
+            }
+        }
     }
     
     @objc private func keyboardWillChangeFrame(_ not: Notification) {
