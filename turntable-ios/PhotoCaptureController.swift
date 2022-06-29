@@ -30,6 +30,14 @@ class PhotoCaptureController: NSObject, AVCapturePhotoCaptureDelegate {
         set { videoDevice?.videoZoomFactor = newValue }
     }
     
+    var photoCaptureMode: PhotoCaptureMode = .photo {
+        didSet {
+            if photoCaptureMode != oldValue {
+                photoCaptureModeChanged()
+            }
+        }
+    }
+    
     var maxAvailableVideoZoom: CGFloat {
         return videoDevice?.maxAvailableVideoZoomFactor ?? 0
     }
@@ -60,7 +68,7 @@ class PhotoCaptureController: NSObject, AVCapturePhotoCaptureDelegate {
                 fatalError("cannot add output \(photoOutput)")
             }
             captureSession.addOutput(photoOutput)
-            captureSession.sessionPreset = .hd1920x1080
+            photoCaptureModeChanged()
             
             captureSession.commitConfiguration()
             self.videoDevice = videoDevice
@@ -70,6 +78,25 @@ class PhotoCaptureController: NSObject, AVCapturePhotoCaptureDelegate {
         }
         
         Console.shared.print("Initialized PhotoCaptureController")
+    }
+    
+    private func photoCaptureModeChanged() {
+        func toAVsessionPreset(mode: PhotoCaptureMode) -> AVCaptureSession.Preset {
+            switch mode {
+            case .photo:
+                return .photo
+            case .hd2160:
+                return .hd4K3840x2160
+            case .hd1080:
+                return .hd1920x1080
+            case .hd720:
+                return .hd1280x720
+            case .vga640x480:
+                return .vga640x480
+            }
+        }
+        
+        captureSession.sessionPreset = toAVsessionPreset(mode: photoCaptureMode)
     }
     
     private func onCapturePhoto(result: Result<(), Error>) {

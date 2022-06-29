@@ -31,4 +31,13 @@ class AppSettings {
         get { userDefaults.float(forKey: "cameraZoom") }
         set { userDefaults.set(newValue, forKey: "cameraZoom") }
     }
+    
+    var photoCaptureMode: PhotoCaptureMode? {
+        get { userDefaults.string(forKey: "photoCaptureMode").flatMap(PhotoCaptureMode.init) }
+        set { userDefaults.set(newValue?.rawValue, forKey: "photoCaptureMode") }
+    }
+}
+
+enum PhotoCaptureMode: String, CaseIterable {
+    case photo, hd2160, hd1080, hd720, vga640x480
 }

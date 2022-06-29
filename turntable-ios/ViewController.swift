@@ -52,6 +52,7 @@ class ViewController: UIViewController, SocketConnectionDelegate {
         navigationController?.setNavigationBarHidden(true, animated: animated)
         
         captureController.videoZoom = CGFloat(settings.cameraZoom)
+        captureController.photoCaptureMode = settings.photoCaptureMode ?? .photo
         
         if connection?.host != (settings.turntableHost ?? "") || connection?.port != UInt32(settings.turntablePort) {
             setupConnection()

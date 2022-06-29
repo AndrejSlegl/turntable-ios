@@ -37,6 +37,12 @@ class SettingsTextFieldCell: UITableViewCell {
         self.item = item
         titleLabel.text = item.title
         textField.text = item.value
+        if case .textField(let keyboardType) = item.type {
+            textField.keyboardType = keyboardType
+        }
+        
+        textField.delegate = item as? UITextFieldDelegate
+        
         validate()
     }
 }

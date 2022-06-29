@@ -23,6 +23,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if settings.cameraZoom <= 1 {
             settings.cameraZoom = 1
         }
+        if settings.photoCaptureMode == nil {
+            settings.photoCaptureMode = .photo
+        }
     }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {

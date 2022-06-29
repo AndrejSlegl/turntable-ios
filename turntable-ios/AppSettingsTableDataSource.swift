@@ -18,7 +18,8 @@ class AppSettingsTableDataSource: NSObject, UITableViewDataSource {
         weak var `self` = self
         settingItems = [
             AppSettingsItem(
-                type: .textField, title: "Host & Port",
+                type: .textField(keyboardType: .numbersAndPunctuation),
+                title: "Host & Port",
                 value: (settings.turntableHost ?? "") + ":" + String(settings.turntablePort),
                 validate: { self?.parseHostAndPort($0) == nil ? "Invalid format" : nil },
                 valueChanged: {
@@ -29,16 +30,26 @@ class AppSettingsTableDataSource: NSObject, UITableViewDataSource {
                 }
             ),
             AppSettingsItem(
-                type: .textField, title: "Steps",
+                type: .textField(keyboardType: .numberPad),
+                title: "Steps",
                 value: String(settings.turntableSteps),
                 validate: { (Int($0) ?? 0) > 0 ? nil : "Invalid format" },
                 valueChanged: { self?.settings.turntableSteps = Int($0) ?? 1 }
             ),
-            AppSettingsItem(
-                type: .textField, title: "camera zoom",
+            AppSettingsFloatItem(
+                type: .textField(keyboardType: .decimalPad),
+                title: "camera zoom",
                 value: String(settings.cameraZoom),
                 validate: { (Float($0) ?? 0) >= 1 ? nil : "Invalid format" },
                 valueChanged: { self?.settings.cameraZoom = Float($0) ?? 1 }
+            ),
+            AppSettingsItem(
+                type: .listPicker(listItems: PhotoCaptureMode.allCases.map { $0.asKeyValuePair() }),
+                title: "photo resolution",
+                value: (settings.photoCaptureMode ?? .photo).rawValue, validate: { _ in nil },
+                valueChanged: {
+                    PhotoCaptureMode(rawValue: $0).flatMap { self?.settings.photoCaptureMode = $0 }
+                }
             )
         ]
     }
@@ -69,15 +80,22 @@ class AppSettingsTableDataSource: NSObject, UITableViewDataSource {
             }
             cell.configure(with: item)
             return cell
+        case .listPicker:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "listPicker", for: indexPath) as? SettingsListPickerTableCell else {
+                return UITableViewCell()
+            }
+            cell.configure(with: item)
+            return cell
         }
     }
 }
 
 enum AppSettingsItemType {
-    case textField
+    case textField(keyboardType: UIKeyboardType)
+    case listPicker(listItems: [(key: String, value: String)])
 }
 
-class AppSettingsItem {
+class AppSettingsItem: NSObject {
     let type: AppSettingsItemType
     let title: String
     var value: String
@@ -90,5 +108,40 @@ class AppSettingsItem {
         self.value = value
         self.validate = validate
         self.valueChanged = valueChanged
+        
+        super.init()
+    }
+}
+
+class AppSettingsFloatItem: AppSettingsItem, UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let text = (textField.text ?? "")
+        guard let r = Range(range, in: text) else { return true }
+        let str = text.replacingCharacters(in: r, with: string)
+        
+        textField.text = str.replacingOccurrences(of: ",", with: ".")
+        textField.sendActions(for: .editingChanged)
+        return false
+    }
+}
+
+extension PhotoCaptureMode {
+    var localizedName: String {
+        switch self {
+        case .photo:
+            return "full"
+        case .hd2160:
+            return "3840x2160"
+        case .hd1080:
+            return "1920x1080"
+        case .hd720:
+            return "1280x720"
+        case .vga640x480:
+            return "640x480"
+        }
+    }
+    
+    func asKeyValuePair() -> (key: String, value: String) {
+        return (rawValue, localizedName)
     }
 }

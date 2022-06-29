@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CE145769286CA01500C5FE86 /* SettingsListPickerTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE145768286CA01500C5FE86 /* SettingsListPickerTableCell.swift */; };
 		CEF46D752854E8940075DBC5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF46D742854E8940075DBC5 /* AppDelegate.swift */; };
 		CEF46D772854E8940075DBC5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF46D762854E8940075DBC5 /* SceneDelegate.swift */; };
 		CEF46D792854E8940075DBC5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF46D782854E8940075DBC5 /* ViewController.swift */; };
@@ -47,6 +48,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CE145768286CA01500C5FE86 /* SettingsListPickerTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsListPickerTableCell.swift; sourceTree = "<group>"; };
 		CEF46D712854E8940075DBC5 /* turntable-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "turntable-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEF46D742854E8940075DBC5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CEF46D762854E8940075DBC5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -139,6 +141,7 @@
 				CEF46DBD285A03A20075DBC5 /* SettingsTextFieldCell.swift */,
 				CEF46DBF285A051C0075DBC5 /* ConsoleTableDataSource.swift */,
 				CEF46DC1285A05430075DBC5 /* AppSettingsTableDataSource.swift */,
+				CE145768286CA01500C5FE86 /* SettingsListPickerTableCell.swift */,
 			);
 			path = "turntable-ios";
 			sourceTree = "<group>";
@@ -305,6 +308,7 @@
 				CEF46D772854E8940075DBC5 /* SceneDelegate.swift in Sources */,
 				CEF46DB42858AC310075DBC5 /* NavigationController.swift in Sources */,
 				CEF46DB028589B3D0075DBC5 /* VideoPreviewView.swift in Sources */,
+				CE145769286CA01500C5FE86 /* SettingsListPickerTableCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
